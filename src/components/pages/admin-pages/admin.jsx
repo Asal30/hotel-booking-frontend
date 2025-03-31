@@ -1,52 +1,3 @@
-// import { Link, Routes, Route } from "react-router-dom";
-// import { MdPeople, MdFeedback, MdPhotoLibrary, MdBedroomParent, MdCategory, MdBookmark } from "react-icons/md";
-// import AdminBookings from "./adminBookings";
-// import AdminCategory from "./adminCategory";
-// import AdminRooms from "./adminRooms";
-// import AdminUsers from "./adminUsers";
-// import AdminFeedback from "./adminFeedback";
-// import AdminGallery from "./adminGallery";
-
-// export default function AdminPage() {
-//     return (
-//         <div className="w-full h-screen flex">
-//             {/* Sidebar */}
-//             <div className="w-[20%] bg-blue-600 h-full flex flex-col py-10 px-4 shadow-lg items-center">
-//                 <h2 className="text-white text-3xl font-bold text-center mb-6">Admin Panel</h2>
-//                 <nav className="flex flex-col w-full justify-between h-full my-[25%]">
-//                     <LinkItem to="/admin/bookings" icon={<MdBookmark />} label="Bookings" />
-//                     <LinkItem to="/admin/category" icon={<MdCategory />} label="Categories" />
-//                     <LinkItem to="/admin/rooms" icon={<MdBedroomParent />} label="Rooms" />
-//                     <LinkItem to="/admin/users" icon={<MdPeople />} label="Users" />
-//                     <LinkItem to="/admin/feedback" icon={<MdFeedback />} label="Feedback" />
-//                     <LinkItem to="/admin/gallery" icon={<MdPhotoLibrary />} label="Gallery Items" />
-//                 </nav>
-//             </div>
-
-//             {/* Main Content */}
-//             <div className="w-[80%] max-h-[100vh] bg-blue-800 flex items-center justify-center overflow-auto">
-//                 <Routes path="/*">
-//                     <Route path="/bookings" element={<AdminBookings />} />
-//                     <Route path="/category" element={<AdminCategory />} />
-//                     <Route path="/rooms" element={<AdminRooms />} />
-//                     <Route path="/users" element={< AdminUsers />} />
-//                     <Route path="/feedback" element={<AdminFeedback />} />
-//                     <Route path="/gallery" element={<AdminGallery />} />
-//                 </Routes>
-//             </div>
-//         </div>
-//     );
-// }
-
-// function LinkItem({ to, icon, label }) {
-//     return (
-//         <Link to={to} className="flex items-center gap-3 text-white text-xl font-medium px-4 py-2 rounded-lg hover:bg-blue-700 transition-all justify-center">
-//             {icon}
-//             <span>{label}</span>
-//         </Link>
-//     );
-// }
-
 import { Link, Routes, Route } from "react-router-dom";
 import { MdPeople, MdFeedback, MdPhotoLibrary, MdBedroomParent, MdCategory, MdBookmark, MdDashboard } from "react-icons/md";
 import AdminBookings from "./adminBookings";
@@ -55,6 +6,7 @@ import AdminRooms from "./adminRooms";
 import AdminUsers from "./adminUsers";
 import AdminFeedback from "./adminFeedback";
 import AdminGallery from "./adminGallery";
+import LinkItem from "../../../routes";
 
 export default function AdminPage() {
     return (
@@ -87,18 +39,6 @@ export default function AdminPage() {
                 </Routes>
             </div>
         </div>
-    );
-}
-
-function LinkItem({ to, icon, label }) {
-    return (
-        <Link
-            to={to}
-            className="flex items-center gap-3 text-[#FFFFFF] text-xl font-medium px-4 py-2 rounded-lg hover:bg-[#6B82A0] transition-all justify-center"
-        >
-            {icon}
-            <span>{label}</span>
-        </Link>
     );
 }
 
