@@ -8,7 +8,15 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [userType, setUserType] = useState("user");
+  const [isAdmin, setIsAdmin] = useState(false);
+
   const navigate = useNavigate();
+
+  const handleAdminCheckboxChange = (e) => {
+    setIsAdmin(e.target.checked);
+    setUserType(e.target.checked ? "admin" : "user");
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,21 +32,23 @@ export default function Register() {
       return;
     }
 
-    axios
-      .post(import.meta.env.VITE_BACKEND_URL + "/api/auth/register", {
-        username: username,
-        email: email,
-        password: password,
+    try {
+      axios.post(import.meta.env.VITE_BACKEND_URL + "/api/auth/register",
+        {
+          username: username,
+          email: email,
+          password: password,
+          user_type: userType,
+        }
+      ).then((response) => {
+        console.log(response.data.message);
       })
-      .then((response) => {
-        console.log(response.data);
-        localStorage.setItem("apiKey", response.data.apiKey);
-        navigate("/login");
-      })
-      .catch((error) => {
-        console.log(error);
-        setError("Registration failed. Please check your credentials.");
-      });
+
+      navigate("/login");
+    } catch (err) {
+      console.error(err);
+      setError("Registration failed. Please check your credentials.");
+    }
   };
 
   return (
@@ -56,12 +66,10 @@ export default function Register() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-primary-700 mb-1">
-              Username
-            </label>
+            <label className="block text-sm font-medium text-primary-700 mb-1">Username</label>
             <input
               type="text"
-              className="w-full p-3 border border-primary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="w-full p-3 border border-primary-300 rounded-lg"
               placeholder="your_username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -69,12 +77,10 @@ export default function Register() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-primary-700 mb-1">
-              Email
-            </label>
+            <label className="block text-sm font-medium text-primary-700 mb-1">Email</label>
             <input
               type="email"
-              className="w-full p-3 border border-primary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="w-full p-3 border border-primary-300 rounded-lg"
               placeholder="your@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -82,12 +88,10 @@ export default function Register() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-primary-700 mb-1">
-              Password
-            </label>
+            <label className="block text-sm font-medium text-primary-700 mb-1">Password</label>
             <input
               type="password"
-              className="w-full p-3 border border-primary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="w-full p-3 border border-primary-300 rounded-lg"
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -95,16 +99,27 @@ export default function Register() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-primary-700 mb-1">
-              Confirm Password
-            </label>
+            <label className="block text-sm font-medium text-primary-700 mb-1">Confirm Password</label>
             <input
               type="password"
-              className="w-full p-3 border border-primary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="w-full p-3 border border-primary-300 rounded-lg"
               placeholder="••••••••"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
+          </div>
+
+          {/* Admin Selection Checkbox */}
+          <div>
+            <label className="inline-flex items-center text-sm font-medium text-primary-700">
+              <input
+                type="checkbox"
+                checked={isAdmin}
+                onChange={handleAdminCheckboxChange}
+                className="form-checkbox h-5 w-5 text-primary-600"
+              />
+              <span className="ml-2">Admin</span>
+            </label>
           </div>
 
           <button

@@ -2,11 +2,10 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export default function LoginPage() {
+export default function LoginPage({ setToken, setRole }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,21 +16,19 @@ export default function LoginPage() {
       return;
     }
 
-    axios
-      .post(import.meta.env.VITE_BACKEND_URL + "/api/auth/login", {
-        username: username,
-        password: password,
+    try {
+      axios.post(import.meta.env.VITE_BACKEND_URL + "/api/auth/login", {
+        username : username,
+        password : password
+      }).then((response) => {
+        console.log(response.data.message);
+        setToken(response.data.token);
+        setRole(response.data.user_type || 'user');
       })
-      .then((response) => {
-        console.log(response.data);
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("apiKey", response.data.apiKey);
-        navigate("/");
-      })
-      .catch((error) => {
-        console.log(error);
-        setError("Login failed. Please check your credentials.");
-      });
+
+    } catch (err) {
+      setError('Login failed. Please check your credentials.');
+    }
   };
 
   return (
